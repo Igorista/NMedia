@@ -3,6 +3,7 @@ package ru.netology.nmedia
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.dto.Post
 import java.lang.Math.round
@@ -22,7 +23,6 @@ class MainActivity : AppCompatActivity() {
             likedByMe = false,
             sheared = false,
             viewed = false
-
         )
         with(binding) {
             author.text = post.author
@@ -66,19 +66,19 @@ class MainActivity : AppCompatActivity() {
 }
 
 fun counting(count: Int): String {
-    var Style: Double
-    var correctCount = "$count"
-    if (count> 999 && count <= 1099) {
-        Style = (count / 1000).toDouble()
-        correctCount="$Style K"
+    val formatCount = when {
+        count in 1000..9999 -> {
+            String.format("%.1fK", count / 1000.0)
+        }
+        count in 10000..999999 -> {
+            String.format("%dK", count / 1000)
+        }
+        count > 1000000 -> {
+            String.format("%.1fM", count / 1000000.0)
+        }
+        else -> {
+            count.toString()
+        }
     }
-    if (count> 1100 && count <= 999999) {
-        Style = (round(((count / 1000) * 10).toDouble()) / 10).toDouble()
-        correctCount = "$Style K"
-    }
-    if (count>999999){
-        Style = (round(((count / 1000000)*10).toDouble())/10).toDouble()
-        correctCount="$Style M"
-    }
-    return correctCount
+    return formatCount
 }
