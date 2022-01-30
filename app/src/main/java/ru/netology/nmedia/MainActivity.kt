@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
                 Log.d("stuff", "avatar")
             }
 
+            likesCount?.text = post.likes.toString()
             like?.setOnClickListener {
                 Log.d("stuff", "like")
                 post.likedByMe = !post.likedByMe
@@ -49,12 +50,14 @@ class MainActivity : AppCompatActivity() {
                 if (post.likedByMe) post.likes++ else post.likes--
                 likesCount?.text = counting(post.likes)
             }
+            sheareCount?.text = post.shears.toString()
             sheared?.setOnClickListener {
                 Log.d("stuff", "sheared")
                 post.sheared = !post.sheared
                 if (post.sheared) post.shears++
                 sheareCount?.text = counting(post.shears)
             }
+            viewsCount?.text = post.views.toString()
             viewed?.setOnClickListener {
                 Log.d("stuff", "viewed")
                 post.viewed = !post.viewed
@@ -73,7 +76,7 @@ fun counting(count: Int): String {
         count in 10000..999999 -> {
             String.format("%dK", count / 1000)
         }
-        count > 1000000 -> {
+        count >= 1000000 -> {
             String.format("%.1fM", count / 1000000.0)
         }
         else -> {
