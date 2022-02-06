@@ -10,6 +10,6 @@ data class Post(
     var views : Int,
     val likedByMe: Boolean,
     val shared: Boolean,
-    val viewed: Boolean,
+
 )
 

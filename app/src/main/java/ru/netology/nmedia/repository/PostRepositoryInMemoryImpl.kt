@@ -12,11 +12,10 @@ class PostRepositoryInMemoryImpl : PostRepository {
         content = "Привет, это новая Нетология! Когда-то Нетология начиналась с интенсивов по онлайн-маркетингу. Затем появились курсы по дизайну, разработке, аналитике и управлению. Мы растём сами и помогаем расти студентам: от новичков до уверенных профессионалов. Но самое важное остаётся с нами: мы верим, что в каждом уже есть сила, которая заставляет хотеть больше, целиться выше, бежать быстрее. Наша миссия — помочь встать на путь роста и начать цепочку перемен → http://netolo.gy/fyb",
         published = "21 мая в 18:36",
         likes = 995,
-        shares = 9995,
-        views = 999995,
+        shares = 9890,
+        views = 1000000,
         likedByMe = false,
         shared = false,
-        viewed = false,
     )
     private val data = MutableLiveData(post)
 
@@ -25,19 +24,14 @@ class PostRepositoryInMemoryImpl : PostRepository {
     override fun like() {
         post = post.copy(likedByMe = !post.likedByMe)
         data.value = post
+        if (post.likedByMe) post.likes++ else post.likes--
         Log.d("stuff", "like")
     }
 
     override fun share() {
         post = post.copy(shared = !post.shared)
         data.value = post
+        if (post.shared) post.shares++
         Log.d("stuff", "share")
     }
-
-    override fun view() {
-        post = post.copy(viewed = !post.viewed)
-        data.value = post
-        Log.d("stuff", "view")
-    }
-
 }

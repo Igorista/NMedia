@@ -22,11 +22,8 @@ class MainActivity : AppCompatActivity() {
                 like.setImageResource(
                     if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
                 )
-                if (post.likedByMe) post.likes++ else post.likes--
                 likesCount?.text = counting(post.likes)
-                if (post.shared) post.shares++
                 sheareCount?.text = counting(post.shares)
-                if (post.viewed) post.views++
                 viewsCount?.text = counting(post.views)
             }
         }
@@ -35,9 +32,6 @@ class MainActivity : AppCompatActivity() {
         }
         binding.shared.setOnClickListener {
             viewModel.share()
-        }
-        binding.viewed.setOnClickListener {
-            viewModel.view()
         }
     }
 }
@@ -48,7 +42,7 @@ fun counting(count: Int): String {
             String.format("%.1fK", count / 1000.0)
         }
         count in 10000..999999 -> {
-            String.format("%dK", count / 1000)
+            String.format("%.1fK", count / 1000)
         }
         count >= 1000000 -> {
             String.format("%.1fM", count / 1000000.0)
