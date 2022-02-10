@@ -3,7 +3,7 @@ package ru.netology.nmedia
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import ru.netology.nmedia.R
+import ru.netology.nmedia.adapter.PostsAdapter
 import ru.netology.nmedia.databinding.ActivityMainBinding
 import ru.netology.nmedia.viewmodel.PostViewModel
 
@@ -14,42 +14,13 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         val viewModel: PostViewModel by viewModels()
-        viewModel.data.observe(this) { post ->
-            with(binding) {
-                author.text = post.author
-                published.text = post.published
-                content.text = post.content
-                like.setImageResource(
-                    if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
-                )
-                likesCount?.text = counting(post.likes)
-                sheareCount?.text = counting(post.shares)
-                viewsCount?.text = counting(post.views)
-            }
-        }
-        binding.like.setOnClickListener {
-            viewModel.like()
-        }
-        binding.shared.setOnClickListener {
-            viewModel.share()
+        val adapter = PostsAdapter (
+            {viewModel.likeById(it.id)},
+            {viewModel.shareById(it.id)}
+        )
+        binding.list.adapter = adapter
+        viewModel.data.observe(this) { posts ->
+            adapter.submitList(posts)
         }
     }
-}
-
-fun counting(count: Int): String {
-    val formatCount = when {
-        count in 1000..9999 -> {
-            String.format("%.1fK", count / 1000.0)
-        }
-        count in 10000..999999 -> {
-            String.format("%.1fK", count / 1000)
-        }
-        count >= 1000000 -> {
-            String.format("%.1fM", count / 1000000.0)
-        }
-        else -> {
-            count.toString()
-        }
-    }
-    return formatCount
 }
