@@ -38,7 +38,6 @@ class MainActivity : AppCompatActivity() {
             }
 
         })
-//        binding.Editing.visibility = View.INVISIBLE
 
         binding.list.adapter = adapter
         viewModel.data.observe(this) { posts ->
@@ -53,6 +52,7 @@ class MainActivity : AppCompatActivity() {
 
                 requestFocus()
                 setText(post.content)
+                binding.textPreview.text = binding.content.text.toString()
                 binding.Editing.visibility = View.VISIBLE
             }
         }
@@ -73,7 +73,7 @@ class MainActivity : AppCompatActivity() {
 
                 setText("")
                 clearFocus()
-                binding.Editing.visibility = View.GONE
+                binding.Editing.visibility = View.INVISIBLE
                 AndroidUtils.hideKeyboard(this)
             }
         }
@@ -82,7 +82,7 @@ class MainActivity : AppCompatActivity() {
                 viewModel.cancel()
                 setText("")
                 clearFocus()
-                binding.Editing.visibility = View.GONE
+                binding.Editing.visibility = View.INVISIBLE
                 AndroidUtils.hideKeyboard(this)
             }
         }

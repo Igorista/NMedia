@@ -31,9 +31,6 @@ class PostViewModel : ViewModel() {
         edited.value = empty
     }
     fun cancel() {
-        edited.value?.let {
-            repository.cancel(it)
-        }
         edited.value = empty
     }
 
