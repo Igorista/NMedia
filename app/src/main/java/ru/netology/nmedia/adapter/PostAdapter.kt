@@ -42,9 +42,7 @@ class PostViewHolder(
             author.text = post.author
             published.text = post.published
             content.text = post.content
-            like.setImageResource(
-                if (post.likedByMe) R.drawable.ic_liked_24 else R.drawable.ic_like_24
-            )
+            like.isChecked = post.likedByMe
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
@@ -70,9 +68,9 @@ class PostViewHolder(
             shared.setOnClickListener {
                 onInteractionListener.onShare(post)
             }
-            likesCount.text = counting(post.likes)
-            shareCount.text = counting(post.shares)
-            viewsCount.text = counting(post.views)
+            like.text = counting(post.likes)
+            shared.text = counting(post.shares)
+            viewed.text = counting(post.views)
         }
     }
 }

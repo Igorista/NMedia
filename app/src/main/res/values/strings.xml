@@ -4,7 +4,6 @@
     <string name="description_post_author_avatar">Post author avatar</string>
     <string name="description_post_menu">Post menu</string>
     <string name="description_post_like">Like</string>
-    <string name="description_post_share">Share</string>
     <string name="description_post_save">Save</string>
     <string name="menu_remove">Remove</string>
     <string name="post_text">Post Text</string>
@@ -12,4 +11,6 @@
     <string name="error_empty_content">Content can\'t be empty</string>
     <string name="cancel_editing">cancel Editing</string>
     <string name="edit_message">Edit Message</string>
+    <string name="description_post_shared">Shared</string>
+    <string name="description_post_viewed">Viewed</string>
 </resources>
