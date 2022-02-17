@@ -15,7 +15,8 @@ private val empty = Post(
     published = "",
     likes = 0,
     shares = 0,
-    views = 0
+    views = 0,
+    videoUrl = ""
 )
 
 class PostViewModel : ViewModel() {
@@ -49,4 +50,5 @@ class PostViewModel : ViewModel() {
     fun removeById(id: Long) = repository.removeById(id)
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
+    fun video() = repository.video()
 }

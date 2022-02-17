@@ -13,4 +13,7 @@
     <string name="edit_message">Edit Message</string>
     <string name="description_post_shared">Shared</string>
     <string name="description_post_viewed">Viewed</string>
+    <string name="chooser_repost">Repost</string>
+    <string name="add_post">Add Post</string>
+    <string name="save">Save</string>
 </resources>

@@ -19,6 +19,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -30,6 +31,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -41,6 +43,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -52,6 +55,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -63,6 +67,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -74,6 +79,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -85,6 +91,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -96,6 +103,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
         Post(
             id = nextId++,
@@ -107,6 +115,7 @@ class PostRepositoryInMemoryImpl : PostRepository {
             views = 1000000,
             likedByMe = false,
             shared = false,
+            videoUrl = null
         ),
     )
 
@@ -158,12 +167,9 @@ class PostRepositoryInMemoryImpl : PostRepository {
         data.value = posts
     }
 
-//    override fun cancel(post: Post) {
-//        posts = posts.map {
-//            if (it.id != post.id) it else it.copy(content = post.content)
-//        }
-//        data.value = posts
-//    }
+    override fun video() {
+        data.value = posts
+    }
 
     override fun removeById(id: Long) {
         posts = posts.filter { it.id != id }

@@ -10,6 +10,7 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import java.text.DecimalFormat
+import android.view.View
 import kotlin.Unit as Unit
 
 interface OnInteractionListener {
@@ -17,6 +18,7 @@ interface OnInteractionListener {
     fun onEdit(post: Post) {}
     fun onRemove(post: Post) {}
     fun onShare(post: Post) {}
+    fun onVideo(post: Post) {}
 }
 
 class PostsAdapter(
@@ -43,6 +45,9 @@ class PostViewHolder(
             published.text = post.published
             content.text = post.content
             like.isChecked = post.likedByMe
+            if (!post.videoUrl.isNullOrEmpty()) {
+                video.visibility = View.VISIBLE
+            } else video.visibility = View.GONE
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
@@ -62,11 +67,15 @@ class PostViewHolder(
                     }
                 }.show()
             }
+
             like.setOnClickListener {
                 onInteractionListener.onLike(post)
             }
             shared.setOnClickListener {
                 onInteractionListener.onShare(post)
+            }
+            video.setOnClickListener {
+                onInteractionListener.onVideo(post)
             }
             like.text = counting(post.likes)
             shared.text = counting(post.shares)
@@ -84,6 +93,7 @@ private fun counting(number: Long): String {
         else -> "${decimalFormat.format(number.toFloat() / 1_000_000)}M"
     }
 }
+
 class PostDiffCallback : DiffUtil.ItemCallback<Post>() {
     override fun areItemsTheSame(oldItem: Post, newItem: Post): Boolean {
         return oldItem.id == newItem.id
