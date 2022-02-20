@@ -66,13 +66,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="avatar,published,menu" />
+            app:constraint_referenced_ids="avatar,published,menu"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="80dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/video"
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:background="@android:color/transparent"
+            android:layout_height="0dp"
+            android:allowUndo="false"
+            android:backgroundTint="#00FFFFFF"
             android:checkable="true"
             android:insetLeft="0dp"
             android:insetTop="0dp"
@@ -83,10 +86,23 @@
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconTint="@color/Grey"
-            app:layout_constraintBottom_toTopOf="@id/content"
+            app:layout_constraintBottom_toTopOf="@id/footer"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/header" />
+            app:layout_constraintTop_toBottomOf="@id/content"
+            />
+
+        <ImageView
+            android:id="@+id/videoBackground"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/play_background"
+            app:layout_constraintBottom_toTopOf="@id/footer"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/content"
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/content"
@@ -98,7 +114,7 @@
             android:paddingBottom="@dimen/common_spacing"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/video"
+            app:layout_constraintTop_toBottomOf="@id/header"
             tools:text="@sample/posts.json/data/content" />
 
         <androidx.constraintlayout.widget.Barrier
@@ -106,7 +122,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:barrierDirection="bottom"
-            app:constraint_referenced_ids="content" />
+            app:constraint_referenced_ids="content"
+            tools:layout_editor_absoluteX="16dp"
+            tools:layout_editor_absoluteY="357dp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/like"

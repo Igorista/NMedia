@@ -47,6 +47,7 @@ class PostViewHolder(
             like.isChecked = post.likedByMe
             if (!post.videoUrl.isNullOrEmpty()) {
                 video.visibility = View.VISIBLE
+                videoBackground.visibility = View.VISIBLE
             } else video.visibility = View.GONE
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
