@@ -11,7 +11,6 @@ import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import java.text.DecimalFormat
 import android.view.View
-import kotlin.Unit as Unit
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
@@ -48,7 +47,10 @@ class PostViewHolder(
             if (!post.videoUrl.isNullOrEmpty()) {
                 video.visibility = View.VISIBLE
                 videoBackground.visibility = View.VISIBLE
-            } else video.visibility = View.GONE
+            } else {
+                video.visibility = View.GONE
+                videoBackground.visibility = View.GONE
+            }
             menu.setOnClickListener {
                 PopupMenu(it.context, it).apply {
                     inflate(R.menu.options_post)
