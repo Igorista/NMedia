@@ -11,11 +11,7 @@
         android:theme="@style/Theme.NMedia">
 
         <activity
-            android:name=".activity.NewPostActivity"
-            android:exported="false"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
-            android:name=".activity.IntentHandlerActivity"
+            android:name=".activity.AppActivity"
             android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.SEND" />
@@ -24,14 +20,6 @@
 
                 <data android:mimeType="text/plain" />
             </intent-filter>
-        </activity>
-        <activity
-            android:name=".activity.EditPostActivity"
-            android:exported="false"
-            android:windowSoftInputMode="stateVisible" />
-        <activity
-            android:name=".activity.MainActivity"
-            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

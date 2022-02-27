@@ -1,6 +1,7 @@
 package ru.netology.nmedia.adapter
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
 import androidx.recyclerview.widget.DiffUtil
@@ -10,7 +11,6 @@ import ru.netology.nmedia.R
 import ru.netology.nmedia.databinding.CardPostBinding
 import ru.netology.nmedia.dto.Post
 import java.text.DecimalFormat
-import android.view.View
 
 interface OnInteractionListener {
     fun onLike(post: Post) {}
@@ -18,6 +18,7 @@ interface OnInteractionListener {
     fun onRemove(post: Post) {}
     fun onShare(post: Post) {}
     fun onVideo(post: Post) {}
+    fun onOpenPost(post: Post) {}
 }
 
 class PostsAdapter(
@@ -79,6 +80,9 @@ class PostViewHolder(
             }
             video.setOnClickListener {
                 onInteractionListener.onVideo(post)
+            }
+            content.setOnClickListener {
+                onInteractionListener.onOpenPost(post)
             }
             like.text = counting(post.likes)
             shared.text = counting(post.shares)
