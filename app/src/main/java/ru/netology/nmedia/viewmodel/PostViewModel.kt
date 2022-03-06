@@ -5,6 +5,7 @@ import ru.netology.nmedia.dto.Post
 import ru.netology.nmedia.repository.PostRepository
 import ru.netology.nmedia.repository.PostRepositoryFileImpl
 import android.app.Application
+import java.text.DecimalFormat
 
 private val empty = Post(
     id = 0,
@@ -51,4 +52,13 @@ class PostViewModel(application: Application) : AndroidViewModel(application) {
     fun likeById(id: Long) = repository.likeById(id)
     fun shareById(id: Long) = repository.shareById(id)
     fun video() = repository.video()
+    fun counting(number: Long): String {
+        val decimalFormat = DecimalFormat("#.#")
+        return when (number) {
+            in 0..999 -> "$number"
+            in 1000..99_999 -> "${decimalFormat.format(number.toFloat() / 1_000)}K"
+            in 10_000..999_999 -> "${number / 1_000}K"
+            else -> "${decimalFormat.format(number.toFloat() / 1_000_000)}M"
+        }
+    }
 }
