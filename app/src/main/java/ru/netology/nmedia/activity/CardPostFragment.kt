@@ -1,11 +1,13 @@
 package ru.netology.nmedia.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import ru.netology.nmedia.R
@@ -34,37 +36,43 @@ class CardPostFragment : Fragment() {
         val binding = FragmentCardPostBinding.inflate(inflater, container, false)
 
         arguments?.postArg?.let {
-            binding.apply {
-                author.text = it.author
-                published.text = it.published
-                content.text = it.content
-                like.isChecked = it.likedByMe
-                like.text = "${it.likes}"
-                if (!it.videoUrl.isNullOrEmpty()) {
-                    video.visibility = View.VISIBLE
-                } else video.visibility = View.GONE
-                menu.setOnClickListener { it ->
-                    PopupMenu(it.context, it).apply {
-                        inflate(R.menu.options_post)
-                        setOnMenuItemClickListener { item ->
-                            when (item.itemId) {
-                                R.id.remove -> {
-                                    findNavController().navigateUp()
-                                    true
-                                }
-                                R.id.edit -> {
-                                    findNavController().navigate(R.id.editPostFragment,
-                                        Bundle().apply
-                                        {
-                                            //textArg = it.content
+            val cardPost = it
+            viewModel.data.observe(viewLifecycleOwner) { post ->
+                with(binding) {
+                    post.map {post ->
+                        author.text = cardPost.author
+                        published.text = cardPost.published
+                        content.text = cardPost.content
+                        like.isChecked = it.likedByMe
+                        like.text = viewModel.counting(cardPost.likes)
+                        shared.text = viewModel.counting(cardPost.shares)
+                        if (!it.videoUrl.isNullOrEmpty()) {
+                            video.visibility = View.VISIBLE
+                        } else video.visibility = View.GONE
+                        menu.setOnClickListener { it ->
+                            PopupMenu(it.context, it).apply {
+                                inflate(R.menu.options_post)
+                                setOnMenuItemClickListener { item ->
+                                    when (item.itemId) {
+                                        R.id.remove -> {
+                                            findNavController().navigateUp()
+                                            true
+                                        }
+                                        R.id.edit -> {
+                                            findNavController().navigate(R.id.editPostFragment,
+                                                Bundle().apply
+                                                {
+                                                    textArg = cardPost.content
 
-                                        })
-                                    true
+                                                })
+                                            true
+                                        }
+                                        else -> false
+                                    }
                                 }
-                                else -> false
-                            }
+                            }.show()
                         }
-                    }.show()
+                    }
                 }
             }
         }

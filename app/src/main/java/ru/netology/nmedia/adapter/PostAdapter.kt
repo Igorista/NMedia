@@ -84,6 +84,7 @@ class PostViewHolder(
             content.setOnClickListener {
                 onInteractionListener.onOpenPost(post)
             }
+
             like.text = counting(post.likes)
             shared.text = counting(post.shares)
             viewed.text = counting(post.views)
