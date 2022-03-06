@@ -32,7 +32,7 @@
         tools:layout="@layout/fragment_card_post" />
     <fragment
         android:id="@+id/editPostFragment"
-        android:name="EditPostFragment"
+        android:name="ru.netology.nmedia.activity.EditPostFragment"
         android:label="EditPostFragment" />
 
 </navigation>

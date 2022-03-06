@@ -1,5 +1,7 @@
 package ru.netology.nmedia.activity
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -32,12 +34,11 @@ class CardPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentCardPostBinding.inflate(inflater, container, false)
-
         arguments?.postArg?.let {
             val cardPost = it
             viewModel.data.observe(viewLifecycleOwner) { post ->
-                with(binding) {
-                    post.map {post ->
+                with(binding.postContent) {
+                    post.map { post ->
                         author.text = cardPost.author
                         published.text = cardPost.published
                         content.text = cardPost.content
@@ -47,12 +48,13 @@ class CardPostFragment : Fragment() {
                         if (!it.videoUrl.isNullOrEmpty()) {
                             video.visibility = View.VISIBLE
                         } else video.visibility = View.GONE
-                        menu.setOnClickListener { it ->
+                        menu.setOnClickListener {
                             PopupMenu(it.context, it).apply {
                                 inflate(R.menu.options_post)
                                 setOnMenuItemClickListener { item ->
                                     when (item.itemId) {
                                         R.id.remove -> {
+                                            viewModel.removeById(cardPost.id)
                                             findNavController().navigateUp()
                                             true
                                         }
@@ -61,7 +63,7 @@ class CardPostFragment : Fragment() {
                                                 Bundle().apply
                                                 {
                                                     textArg = cardPost.content
-
+                                                    viewModel.edit(post)
                                                 })
                                             true
                                         }
@@ -69,6 +71,23 @@ class CardPostFragment : Fragment() {
                                     }
                                 }
                             }.show()
+                        }
+                        like.setOnClickListener {
+                            viewModel.likeById(cardPost.id)
+                        }
+                        shared.setOnClickListener {
+                            viewModel.shareById(cardPost.id)
+                            Intent().apply {
+                                action = Intent.ACTION_SEND
+                                putExtra(Intent.EXTRA_TEXT, post.content)
+                                type = "text/plane"
+                            }
+                        }
+                        video.setOnClickListener {
+                            val intentVideo =
+                                Intent(Intent.ACTION_VIEW, Uri.parse(cardPost.videoUrl))
+                            startActivity(intentVideo)
+
                         }
                     }
                 }

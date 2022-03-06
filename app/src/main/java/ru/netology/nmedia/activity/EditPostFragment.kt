@@ -1,3 +1,5 @@
+package ru.netology.nmedia.activity
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +16,11 @@ class EditPostFragment : Fragment() {
     companion object {
         var Bundle.textArg: String? by StringArg
     }
+
     private val viewModel: PostViewModel by viewModels(
         ownerProducer = ::requireParentFragment
     )
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
