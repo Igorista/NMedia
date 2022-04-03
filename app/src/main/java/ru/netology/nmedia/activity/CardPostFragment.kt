@@ -34,45 +34,62 @@ class CardPostFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val binding = FragmentCardPostBinding.inflate(inflater, container, false)
-
-        arguments?.postArg?.let {
-            val cardPost = it
-            viewModel.data.observe(viewLifecycleOwner) { post ->
-                with(binding) {
-                    post.map {post ->
-                        author.text = cardPost.author
-                        published.text = cardPost.published
-                        content.text = cardPost.content
-                        like.isChecked = it.likedByMe
-                        like.text = viewModel.counting(cardPost.likes)
-                        shared.text = viewModel.counting(cardPost.shares)
-                        if (!it.videoUrl.isNullOrEmpty()) {
-                            video.visibility = View.VISIBLE
-                        } else video.visibility = View.GONE
-                        menu.setOnClickListener { it ->
-                            PopupMenu(it.context, it).apply {
-                                inflate(R.menu.options_post)
-                                setOnMenuItemClickListener { item ->
-                                    when (item.itemId) {
-                                        R.id.remove -> {
-                                            findNavController().navigateUp()
-                                            true
-                                        }
-                                        R.id.edit -> {
-                                            findNavController().navigate(R.id.editPostFragment,
-                                                Bundle().apply
-                                                {
-                                                    textArg = cardPost.content
-
-                                                })
-                                            true
-                                        }
-                                        else -> false
-                                    }
+        val postId = arguments?.postArg?.id ?: -1
+        viewModel.data.observe(viewLifecycleOwner) { posts ->
+            val post = posts.find { it.id == postId } ?: return@observe
+            with(binding.postContent) {
+                author.text = post.author
+                published.text = post.published
+                content.text = post.content
+                like.isChecked = post.likedByMe
+                like.text = viewModel.counting(post.likes)
+                shared.text = viewModel.counting(post.shares)
+                if (!post.videoUrl.isNullOrEmpty()) {
+                    video.visibility = View.VISIBLE
+                } else video.visibility = View.GONE
+                menu.setOnClickListener {
+                    PopupMenu(it.context, it).apply {
+                        inflate(R.menu.options_post)
+                        setOnMenuItemClickListener { item ->
+                            when (item.itemId) {
+                                R.id.remove -> {
+                                    viewModel.removeById(post.id)
+                                    findNavController().navigateUp()
+                                    true
                                 }
-                            }.show()
+                                R.id.edit -> {
+                                    viewModel.edit(post)
+                                    findNavController().navigate(R.id.editPostFragment,
+                                        Bundle().apply
+                                        {
+                                            textArg = post.content
+                                            viewModel.edit(post)
+                                        })
+                                    true
+                                }
+                                else -> false
+                            }
                         }
+                    }.show()
+                }
+                like.setOnClickListener {
+                    viewModel.likeById(post.id)
+                }
+                shared.setOnClickListener {
+                    val intent = Intent().apply {
+                        action = Intent.ACTION_SEND
+                        putExtra(Intent.EXTRA_TEXT, post.content)
+                        type = "text/plane"
                     }
+                    val repostIntent = Intent.createChooser(intent, getString(R.string.chooser_repost))
+                    startActivity(repostIntent)
+                    viewModel.shareById(post.id)
+                }
+                video.setOnClickListener {
+                    val intentVideo =
+                        Intent(Intent.ACTION_VIEW, Uri.parse(post.videoUrl))
+                    startActivity(intentVideo)
+
                 }
             }
         }
