@@ -1,9 +1,11 @@
 package ru.netology.nmedia.activity
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -34,9 +36,24 @@ class NewPostFragment : Fragment() {
         binding.ok.setOnClickListener {
             viewModel.changeContent(binding.edit.text.toString())
             viewModel.save()
+            savecontent("")
             AndroidUtils.hideKeyboard(requireView())
             findNavController().navigateUp()
         }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
+            val content = binding.edit.text.toString()
+            savecontent(content)
+            findNavController().navigateUp()
+        }
+
         return binding.root
+    }
+
+    fun savecontent(string: String) {
+        context?.openFileOutput("savecontent.json", Context.MODE_PRIVATE)?.bufferedWriter().use {
+            if (it != null) {
+                it.write(string)
+            }
+        }
     }
 }
